@@ -2,4 +2,6 @@ import { Button } from "./button";
 import { Form } from "./form";
 import { Input } from "./input";
 import { Label } from "./label";
-export { Button, Form, Input, Label };
+import { Switch } from "./switch";
+import { Card } from "./card";
+export { Button, Form, Input, Label, Switch, Card };

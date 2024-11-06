@@ -1,3 +1,5 @@
 import Login from "./Login/Login";
 import Eprofile from "./Eprofile/Eprofile";
-export { Login, Eprofile };
+import Profile from "./Profile/Profile";
+
+export { Login, Eprofile, Profile };

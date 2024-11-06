@@ -1,7 +1,12 @@
+import { Profile } from "../../components";
 import React from "react";
 
-const TodoPage = () => {
-  return <div>Edit Profile Page</div>;
+const SignInPage = () => {
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 };
 
-export default TodoPage;
+export default SignInPage;
