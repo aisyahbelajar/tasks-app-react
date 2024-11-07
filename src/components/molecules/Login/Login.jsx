@@ -17,9 +17,7 @@ import { Input } from "../../ui/input";
 import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Please enter a valid email address.",
-  }),
+  email: z.string().email("Please enter a valid email address."),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters",
   }),

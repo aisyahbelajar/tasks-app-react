@@ -16,26 +16,45 @@ import {
 import { Input } from "../../ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  profileurl: z.string().url("Please enter a valid profile URL address"),
+  email: z.string().email("Please enter a valid email address"),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-function Eprofile() {
+function Eprofile({ avatar }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      profileurl: "",
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
-  function onSubmit(values) {
+  const onSubmit = (values) => {
     console.log(values);
-  }
+    navigate("/tasks");
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1">
+        <FormItem>
+          <div className="flex justify-center">
+            <img
+              src={
+                avatar ||
+                "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNpcmNsZS11c2VyLXJvdW5kIj48cGF0aCBkPSJNMTggMjBhNiA2IDAgMCAwLTEyIDAiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEwIiByPSI0Ii8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48L3N2Zz4="
+              }
+              alt="User Avatar"
+              className="w-24 h-24 rounded-full object-cover"
+            />
+          </div>
+        </FormItem>
         <FormField
           control={form.control}
           name="profileurl"
