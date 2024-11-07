@@ -1,5 +1,6 @@
 import Login from "./Login/Login";
 import Eprofile from "./Eprofile/Eprofile";
-import Profile from "./Profile/Profile";
+import Main from "./Profile/Main";
+import Users from "./Profile/Users";
 
-export { Login, Eprofile, Profile };
+export { Login, Eprofile, Main, Users };

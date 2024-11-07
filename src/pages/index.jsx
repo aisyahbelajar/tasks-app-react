@@ -1,5 +1,5 @@
 import EditProfile from "./EditProfile/EditProfile";
 import SignInPage from "./SignInPage/SignInPage";
-import TodoPage from "./TodoPage/TodoPage";
+import TaskPage from "./TaskPage/TaskPage";
 
-export { EditProfile, SignInPage, TodoPage };
+export { EditProfile, SignInPage, TaskPage };
