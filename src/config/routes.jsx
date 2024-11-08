@@ -5,9 +5,9 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<EditProfile />} />
+        <Route path="/" element={<SignInPage />} />
+        <Route path="/edit" element={<EditProfile />} />
         <Route path="/tasks" element={<TaskPage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
       </Routes>
     </BrowserRouter>
   );

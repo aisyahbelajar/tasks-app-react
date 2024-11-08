@@ -39,6 +39,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   justify-content: center;
+  background-color: rgba(13, 7, 20, 1);
 }
 
 h1 {
@@ -82,7 +83,7 @@ button:focus-visible {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 257 23% 12%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
@@ -96,7 +97,7 @@ button:focus-visible {
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
+
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
     --chart-1: 12 76% 61%;

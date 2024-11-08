@@ -9,7 +9,7 @@ const EditProfile = () => {
     navigate("/tasks");
   };
   return (
-    <div className=" bg-stone-900 rounded-lg">
+    <div className=" bg-[#1c1826] rounded-lg">
       <div className="flex text-white align-middle">
         <Button size="icon" className="mt-4 ml-4 mr-1" onClick={handleBack}>
           <svg
@@ -31,7 +31,7 @@ const EditProfile = () => {
           Edit Profil
         </h3>
       </div>
-      <div className="px-14 pb-8 border-stone-200 bg-stone-900 rounded-lg">
+      <div className="px-14 pb-8 border-stone-200 bg-[#1c1826] rounded-lg">
         <div className="w-[18rem] text-white">
           <Eprofile />
         </div>
