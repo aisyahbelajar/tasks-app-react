@@ -48,7 +48,7 @@ function Login() {
           render={({ field }) => (
             <FormItem className="mt-10 text-left">
               <FormLabel>Email</FormLabel>
-              <FormControl className="p-2 border border-stone-500 rounded-md w-full">
+              <FormControl className="p-2 border border-[#997cc2] rounded-md w-full">
                 <Input placeholder="Enter your email" {...field} />
               </FormControl>
               <FormMessage className="text-red-600" />
@@ -61,7 +61,7 @@ function Login() {
           render={({ field }) => (
             <FormItem className="text-left">
               <FormLabel>Password</FormLabel>
-              <FormControl className="p-2 border border-stone-500 rounded-md">
+              <FormControl className="p-2 border border-[#997cc2] rounded-md">
                 <Input placeholder="*****" {...field} type="password" />
               </FormControl>
               <FormMessage className="text-red-600" />
