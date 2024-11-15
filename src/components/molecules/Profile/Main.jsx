@@ -1,47 +1,77 @@
+import React, { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Input } from "../../ui/input";
+import { taskApi } from "../../../api/taskApi";
 import "./profile.css";
 
 function Main({ className, ...props }) {
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Complete React project", done: false },
-    { id: 2, name: "Read about Tailwind CSS", done: true },
-    { id: 3, name: "Prepare for coding interview", done: false },
-    { id: 4, name: "Buy groceries", done: true },
-  ]);
+  const [tasks, setTasks] = useState([]); // Initialize as empty array
 
-  const handleAddTask = () => {
+  // Fetch tasks from API when component mounts
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const fetchedTasks = await taskApi.getTasks();
+        setTasks(fetchedTasks || []); // Ensure the response is not null/undefined
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const handleAddTask = async () => {
     if (task.trim()) {
-      setTasks([
-        ...tasks,
-        {
-          id: Date.now(),
-          name: task,
-          done: false,
-        },
-      ]);
-      setTask("");
+      try {
+        const addedTask = await taskApi.addTask(task);
+        if (addedTask) {
+          const fetchedTasks = await taskApi.getTasks();
+          setTasks(fetchedTasks || []);
+          setTask("");
+        } else {
+          console.error("Task not added. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error adding task:", error);
+      }
+    } else {
+      console.error("Task title cannot be empty.");
     }
   };
 
-  const handleToggleDone = (id) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id ? { ...task, done: !task.done } : task
-    );
-    setTasks(updatedTasks);
+  const handleToggleDone = async (id) => {
+    try {
+      // Call API to update task status
+      await taskApi.updateTaskStatus(id); // Make sure this endpoint updates the task status in the backend
+
+      const updatedTasks = tasks.map((task) =>
+        task._id === id ? { ...task, isDone: !task.isDone } : task
+      );
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
   };
 
-  const handleDeleteTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    setTasks(updatedTasks);
+  const handleDeleteTask = async (id) => {
+    try {
+      // Call API to delete task from backend
+      await taskApi.deleteTask(id); // Ensure this API endpoint deletes the task from the database
+
+      // Remove task locally
+      const updatedTasks = tasks.filter((task) => task._id !== id);
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
-  const completedTasks = tasks.filter((task) => task.done);
-  const toDoTasks = tasks.filter((task) => !task.done);
+  const completedTasks = tasks.filter((task) => task.isDone);
+  const toDoTasks = tasks.filter((task) => !task.isDone);
 
   return (
     <Card className={cn("w-[380px] mt-10 mb-10", className)} {...props}>
@@ -71,7 +101,7 @@ function Main({ className, ...props }) {
         </Button>
       </CardContent>
 
-      {/* Task To Do */}
+      {/* Render Task Lists */}
       <CardHeader>
         <CardTitle className="text-white">
           Task To Do - {toDoTasks.length}
@@ -86,13 +116,13 @@ function Main({ className, ...props }) {
             >
               <div className="col-start-1 col-end-5">
                 <p className="text-sm leading-none text-[#987dca]">
-                  {task.name}
+                  {task.title}
                 </p>
               </div>
               <div className="col-start-5">
                 <Button
                   className="bg-[#987dca]"
-                  onClick={() => handleToggleDone(task.id)}
+                  onClick={() => handleToggleDone(task._id)}
                   size="icon"
                 >
                   <svg
@@ -114,7 +144,7 @@ function Main({ className, ...props }) {
               <div className="col-start-6">
                 <Button
                   className="bg-[#987dca]"
-                  onClick={() => handleDeleteTask(task.id)}
+                  onClick={() => handleDeleteTask(task._id)}
                   size="icon"
                 >
                   <svg
@@ -157,7 +187,9 @@ function Main({ className, ...props }) {
               key={task.id}
               className="flex items-center space-x-4 rounded-md border bg-[#0d0713] p-4"
             >
-              <p className="text-green-600 text-sm leading-none">{task.name}</p>
+              <p className="text-green-600 text-sm leading-none">
+                {task.title}
+              </p>
             </div>
           ))
         ) : (

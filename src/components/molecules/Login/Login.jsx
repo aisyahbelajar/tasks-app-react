@@ -26,7 +26,7 @@ const formSchema = z.object({
 
 function Login() {
   const navigate = useNavigate();
-  const [error, setError] = useState(""); // State untuk menampilkan error jika login gagal
+  const [error, setError] = useState("");
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,18 +35,24 @@ function Login() {
     },
   });
 
-  async function onSubmit(values) {
+  const onSubmit = async (values) => {
     try {
-      // Panggil fungsi login dari userApi
       const user = await login(values.email, values.password);
       console.log("Login successful:", user);
-      // Navigasi ke halaman lain setelah berhasil login
+
+      // Verifikasi apakah token ada setelah login
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("Token is missing. Please login again.");
+        return;
+      }
+
       navigate("/tasks");
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your email and password.");
     }
-  }
+  };
 
   return (
     <Form {...form}>
