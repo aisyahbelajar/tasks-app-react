@@ -1,4 +1,3 @@
-// src/components/ProfileForm.jsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +14,8 @@ import {
 } from "../../ui/form";
 import { Input } from "../../ui/input";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import login from "../../../api/userApi";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -24,6 +25,8 @@ const formSchema = z.object({
 });
 
 function Login() {
+  const navigate = useNavigate();
+  const [error, setError] = useState(""); // State untuk menampilkan error jika login gagal
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,16 +35,24 @@ function Login() {
     },
   });
 
-  const navigate = useNavigate();
-
-  function onSubmit(values) {
-    console.log(values);
-    navigate("/tasks");
+  async function onSubmit(values) {
+    try {
+      // Panggil fungsi login dari userApi
+      const user = await login(values.email, values.password);
+      console.log("Login successful:", user);
+      // Navigasi ke halaman lain setelah berhasil login
+      navigate("/tasks");
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Login failed. Please check your email and password.");
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {error && <p className="text-red-600">{error}</p>}{" "}
+        {/* Tampilkan pesan error */}
         <FormField
           control={form.control}
           name="email"
@@ -69,7 +80,7 @@ function Login() {
           )}
         />
         <div className="flex justify-center">
-          <Button type="submit" className="bg-[#9c7fc2] mb-5  w-96">
+          <Button type="submit" className="bg-[#9c7fc2] mb-5 w-96">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -77,10 +88,10 @@ function Login() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-check"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-check"
             >
               <path d="M20 6 9 17l-5-5" />
             </svg>
