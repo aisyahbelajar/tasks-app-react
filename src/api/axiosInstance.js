@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const token = localStorage.getItem("token"); // Gunakan "token" sebagai kunci
+    const token = localStorage.getItem("token");
 
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -30,7 +30,6 @@ axiosInstance.interceptors.response.use(
   function (error) {
     // Handle response errors
     if (error.response && error.response.status === 401) {
-      // Hapus token jika tidak berwenang
       localStorage.removeItem("token");
     }
     return Promise.reject(error);
