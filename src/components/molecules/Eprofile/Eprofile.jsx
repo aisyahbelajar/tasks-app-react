@@ -63,15 +63,19 @@ function Eprofile({ className, ...props }) {
       });
     }
   }, [userData, form]);
-
   const onSubmit = async (values) => {
     try {
       const response = await userApi.updateUser(values);
-      if (response.ok) {
+      console.log("Response from updateUser:", response);
+
+      if (response.success) {
         console.log("User data updated successfully.");
         navigate("/tasks");
       } else {
-        console.error("Failed to update user data:", response.statusText);
+        console.error(
+          "Failed to update user data:",
+          response.message || response
+        );
       }
     } catch (error) {
       console.error("Error updating user data:", error);
