@@ -15,7 +15,7 @@ import {
 import { Input } from "../../ui/input";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import login from "../../../api/userApi";
+import { userApi } from "../../../api/userApi";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -37,10 +37,9 @@ function Login() {
 
   const onSubmit = async (values) => {
     try {
-      const user = await login(values.email, values.password);
+      const user = await userApi.login(values.email, values.password);
       console.log("Login successful:", user);
 
-      // Verifikasi apakah token ada setelah login
       const token = localStorage.getItem("token");
       if (!token) {
         setError("Token is missing. Please login again.");
@@ -58,7 +57,6 @@ function Login() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {error && <p className="text-red-600">{error}</p>}{" "}
-        {/* Tampilkan pesan error */}
         <FormField
           control={form.control}
           name="email"

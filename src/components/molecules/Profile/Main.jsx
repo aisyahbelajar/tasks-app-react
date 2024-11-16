@@ -8,14 +8,13 @@ import "./profile.css";
 
 function Main({ className, ...props }) {
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]); // Initialize as empty array
+  const [tasks, setTasks] = useState([]);
 
-  // Fetch tasks from API when component mounts
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const fetchedTasks = await taskApi.getTasks();
-        setTasks(fetchedTasks || []); // Ensure the response is not null/undefined
+        setTasks(fetchedTasks || []);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
@@ -45,8 +44,7 @@ function Main({ className, ...props }) {
 
   const handleToggleDone = async (id) => {
     try {
-      // Call API to update task status
-      await taskApi.updateTaskStatus(id); // Make sure this endpoint updates the task status in the backend
+      await taskApi.updateTaskStatus(id);
 
       const updatedTasks = tasks.map((task) =>
         task._id === id ? { ...task, isDone: !task.isDone } : task
@@ -59,10 +57,8 @@ function Main({ className, ...props }) {
 
   const handleDeleteTask = async (id) => {
     try {
-      // Call API to delete task from backend
-      await taskApi.deleteTask(id); // Ensure this API endpoint deletes the task from the database
+      await taskApi.deleteTask(id);
 
-      // Remove task locally
       const updatedTasks = tasks.filter((task) => task._id !== id);
       setTasks(updatedTasks);
     } catch (error) {

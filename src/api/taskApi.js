@@ -3,13 +3,13 @@ import axiosInstance from "./axiosInstance";
 const getTasks = async () => {
   try {
     const { data } = await axiosInstance.get("/tasks");
-    console.log("Fetched tasks:", data); // Tambahkan log ini untuk melihat response
+    console.log("Fetched tasks:", data);
     return data.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {
       console.error("Unauthorized. Please check your token or login again.");
     }
-    console.error("Error fetching tasks:", error); // Tambahkan log ini untuk melihat error
+    console.error("Error fetching tasks:", error);
     throw error;
   }
 };
@@ -60,7 +60,7 @@ const addTask = async (title) => {
     } else {
       console.error("Error creating task request:", error.message);
     }
-    throw error; // Melempar error untuk penanganan lebih lanjut
+    throw error;
   }
 };
 
