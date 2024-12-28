@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Input } from "../../ui/input";
 import { taskApi } from "../../../api/taskApi";
-import "./profile.css";
 
 function Main({ className, ...props }) {
   const [task, setTask] = useState("");

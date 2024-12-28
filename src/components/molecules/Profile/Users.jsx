@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../../ui/card";
-import "./profile.css";
 import { userApi } from "../../../api/userApi";
 import React, { useState, useEffect } from "react";
 
